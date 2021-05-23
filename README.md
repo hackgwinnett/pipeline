@@ -2,7 +2,9 @@
 
 <br>
 
-<p>Send and retrieve data through a remote server anonymously.</p>
+<p>
+  Send and retrieve data through a remote server anonymously.<br>
+</p>
 <img src="https://raw.githubusercontent.com/hershyz/pipeline/main/assets/bar.png"/>
 
 <h3>Contents</h3>
