@@ -5,7 +5,7 @@ app = Flask(__name__)
 
 @app.route("/")
 def home():
-    return "api error: no args passed"
+    return "api error - no args passed"
 
 @app.route("/<raw>")
 def parse(raw):
