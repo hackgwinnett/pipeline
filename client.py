@@ -24,3 +24,10 @@ def create_read_args(filename, password):
 def send(address, args):
     r = requests.get(address + "/" + args)
     return r.text
+
+def parse(raw, field):
+    arr = raw.split(",")
+    for term in arr:
+        if field + ":" in term:
+            return term.split(":")[1]
+    return "client error - field not found: " + field
