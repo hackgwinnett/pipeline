@@ -1,1 +1,1 @@
-<img src="https://raw.githubusercontent.com/hershyz/pipeline/main/pipeline.png"/>
+<h1>Pipeline</h1>
