@@ -18,7 +18,8 @@ def create_add_args(raw_arr, password, filename):
         storage += str(raw_arr[i][0]) + ":" + str(raw_arr[i][1])
     return storage
 
-# TODO: def create_read_args
+def create_read_args(filename, password):
+    return "read," + str(filename) + ",password:" + password
 
 def send(address, args):
     r = requests.get(address + "/" + args)
