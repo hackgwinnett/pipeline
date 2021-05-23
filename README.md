@@ -1,4 +1,7 @@
-<h1>pipeline</h1>
+<img src="https://raw.githubusercontent.com/hershyz/pipeline/main/assets/pipeline.png" width="200px">
+
+<br>
+
 <p>Send and retrieve data through a remote server anonymously.</p>
 <img src="https://raw.githubusercontent.com/hershyz/pipeline/main/assets/bar.png"/>
 
