@@ -20,8 +20,6 @@
   <li><a href="https://github.com/hershyz/pipeline/blob/main/tests/tests.py">Tests File</a></li>
 </ul>
 
-<br>
-
 <h3>Client Commands</h3>
 <table>
 <tbody>
