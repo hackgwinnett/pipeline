@@ -12,3 +12,5 @@
   <li><a href="https://github.com/hershyz/pipeline/blob/main/server.py">Server Source</a></li>
   <li><a href="https://github.com/hershyz/pipeline/blob/main/client.py">Client (Python API Wrapper)</a></li>
 </ul>
+
+<h3>Docs</h3>
