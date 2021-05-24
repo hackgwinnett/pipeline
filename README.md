@@ -4,6 +4,8 @@
 
 <p>
   Send and retrieve data anonymously through a remote Flask server.<br>
+  Data is stored by the server in password-protected containers.<br>
+  These containers can be created by the client and then accessed with proper authentication.
 </p>
 <img src="https://raw.githubusercontent.com/hershyz/pipeline/main/assets/bar.png"/>
 
