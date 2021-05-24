@@ -3,7 +3,7 @@
 <br>
 
 <p>
-  Send and retrieve data through a remote server anonymously.<br>
+  Send and retrieve data anonymously through a remote Flask server.<br>
 </p>
 <img src="https://raw.githubusercontent.com/hershyz/pipeline/main/assets/bar.png"/>
 
