@@ -1,18 +1,13 @@
-from flask import Flask
+from flask import Flask, request
 import os
 
 app = Flask(__name__)
 
 
-@app.route("/")
-def home():
-    return "api error - no args passed"
-
-
-@app.route("/<raw>")
-def parse(raw):
-    args = str(raw).split(",")
-
+@app.route("/", methods=("POST",))
+def parse():
+    headers = request.headers
+    command, filename, password = headers.get("command"), headers.get("filename"), headers.get("password")
     '''
         format (if add):
         args[0] = add
@@ -43,82 +38,68 @@ def parse(raw):
     '''
 
     # debugging (server-side):
-    output = ""
-    for element in args:
-        output += element + " "
-
-    print(output)
 
     # add command:
-    if args[0] == "add":
-        filename = args[1].split(".")[0]
-        filename = filename.replace(">", "/")
+    if command == "add":
+        data = request.get_json()
+        data = data.split("{")[1]
         if os.path.exists(filename):
             return "file: " + filename + " already exists"
 
-        f = open(filename, "a")
-        filecontent = ""
-        i = 2
-        while i < len(args):
-            filecontent += args[i]
-            if i < len(args) - 1:
-                filecontent += ","
-            i += 1
-        f.write(filecontent)
-        f.close()
+        if password != "None":
+            with open(filename, "w") as f:
+                f.write(f'{{"password": "{password}", {data}')
+        else:
+            with open(filename, "w") as f:
+                f.write(data)
 
         # send message back to the client (flask handles errors if file creation is not successful)
         return "data successfully stored"
 
     # add directory command:
-    elif args[0] == "add_dir":
-        dirname, password = args[1], args[2]
-        dirname = dirname.replace(">", "/")
-        if os.path.exists(dirname):
-            return f"Directory: {dirname} already exists!"
+    elif command == "add_dir":
+        filename = filename.replace(">", "/")
+        if os.path.exists(filename):
+            return f"Directory: {filename} already exists!"
 
-        os.makedirs(dirname)
+        os.makedirs(filename)
 
         if "None" not in str(password):
-            with open(f"{dirname}/password.txt", "w") as file:
+            with open(f"{filename}/password.txt", "w") as file:
                 file.write(f"password:{password}")
-            return f"Locked Directory {dirname} Created with Password {password}"
+            return f"Locked Directory {filename} Created with Password {password}"
         else:
-            return f"Directory {dirname} created!"
+            return f"Directory {filename} created!"
 
     # read command:
-    elif args[0] == "read":
+    elif command == "read":
 
-        filename = args[1].split(".")[0]
-        user_password = args[2].split(":")[1]
         file_password = ""
 
         if os.path.exists(filename):
-            f = open(filename, "r")
-            content = f.read()
+            with open(filename, "r") as f:
+                content = f.read()
             raw_add = content.split(",")
             for field in raw_add:
                 if "password:" in field:
                     file_password = field.split(":")[1]
-            if user_password == file_password:
-                return content
+            if password != "None":
+                if password == file_password:
+                    return content
+                else:
+                    return "password is invalid: " + password
             else:
-                return "password is invalid: " + user_password
+                return content
 
         else:
             return "file does not exist: " + filename
 
     # read directory command:
-    elif args[0] == "read_dir":
-        password, filename = args[2], args[1]
-        user_password = password.split(":")[1]
-        filename = filename.replace(">", "/")
-        print(filename)
-        print(password)
+    elif command == "read_dir":
         if os.path.exists(filename):
             try:
                 with open("password.txt", "r") as password:
-                    if user_password in password.read():
+                    if str(password) in password.read():
                         files = os.listdir(filename)
                         return str(files)
                     else:
@@ -129,7 +110,7 @@ def parse(raw):
         else:
             return f"Directory {filename} does not exist"
     else:
-        return 'Unknown Command: "' + args[0] + '"'
+        return 'Unknown Command: "' + command + '"'
 
 
 if __name__ == "__main__":
