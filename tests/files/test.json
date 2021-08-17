@@ -1,0 +1,13 @@
+{
+  "file1content": {
+    "field1": "file 1 content 1",
+    "field2": "file 1 content 2",
+    "field3": "file 1 content 3"
+  },
+
+  "file2content": {
+    "field1": "file 2 content 1",
+    "field2": "file 2 content 2",
+    "field3": "file 2 content 3"
+  }
+}
