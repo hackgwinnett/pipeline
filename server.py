@@ -81,8 +81,9 @@ def parse():
                 content = f.read()
             raw_add = content.split(",")
             for field in raw_add:
-                if "password:" in field:
+                if '"password":' in field:
                     file_password = field.split(":")[1]
+                    file_password = file_password.split('"')[1]
             if password != "None":
                 if password == file_password:
                     return content
