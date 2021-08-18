@@ -10,38 +10,35 @@ import requests
 '''
 
 
-def create_add_args(raw_arr, filename, password=None):
-    filename = str(filename).replace("/", ">")
-    storage = "add,"
-    storage += filename + ","
-    storage += "password:" + str(password)
-    for i in range(len(raw_arr)):
-        if i < (len(raw_arr)):
-            storage += ","
-        storage += str(raw_arr[i][0]) + ":" + str(raw_arr[i][1])
-    return storage
+def create_add_args(filename, password=None):
+    headers = {"command": "add",
+               "filename": str(filename),
+               "password": str(password),
+               "Accept": "text/plain"}
+    return headers
 
 
 def create_dir_args(dirname, password=None):
-    dirname = str(dirname).replace("/", ">")
-    storage = "add_dir,"
-    storage += dirname + ","
-    storage += "password:" + str(password)
-    return storage
+    headers = {"command": "add_dir",
+               "filename": dirname,
+               "password": str(password)}
+    return headers
 
 
 def create_read_args(filename, password=None):
-    filename = str(filename).replace("/", ">")
-    return "read," + str(filename) + ",password:" + password
+    return {"command": "read",
+            "filename": str(filename),
+            "password": str(password)}
 
 
 def create_read_dir_args(dirname, password=None):
-    dirname = dirname = str(dirname).replace("/", ">")
-    return "read_dir," + str(dirname) + ",password:" + str(password)
+    return {"command": "read_dir",
+            "filename": str(dirname),
+            "password": str(password)}
 
 
-def send(address, args):
-    r = requests.get(address + "/" + args)
+def send(address, args, data=None):
+    r = requests.post(address, headers=args, json=data)
     return r.text
 
 
